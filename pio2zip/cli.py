@@ -121,8 +121,7 @@ def get_firmware_files(idedata_file: Path, build_path: str, firmware_file: str) 
         fatal(f"Fatal Error: \n {e}")
 
 
-if __name__ == "__main__":
-
+def main():
     args = parse_args()
     builds = scan_builds(args.build_base, args.idedata)
     if len(builds) == 0:
@@ -154,7 +153,7 @@ if __name__ == "__main__":
         line()
         prompt("Generating zip file...")
         parts = []
-        with ZipFile(OUTPUT_FILE, "w") as zip_object:
+        with ZipFile(args.output, "w") as zip_object:
             for record in firmware_files:
                 prompt(f"Adding: {Path(record['file']).absolute()}... ")
                 zip_object.write(record["file"], arcname=record["offset"] + "_" + record["file"].split("/")[-1])
